@@ -13,19 +13,10 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
 import android.widget.RadioButton
-import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
-import android.content.ContentResolver
-import android.graphics.BitmapFactory
-import android.graphics.drawable.Drawable
-import java.io.InputStream
-import java.net.URL
-import android.Manifest.permission
-import android.Manifest.permission.WRITE_CALENDAR
 import android.content.pm.PackageManager
+import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
-
-
 
 
 class MainActivity : AppCompatActivity() {
@@ -75,8 +66,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getData() {
+        // for API 23 and upper: check permission at runtime
+        checkPermission()
+
         val savedImage = sharedPref!!.getString("image", imageUriString)
-        println(savedImage)
         val savedGenre = sharedPref!!.getString("genre", getGenre())
         val savedCaption = sharedPref!!.getString("caption", caption.text.toString())
 
@@ -93,6 +86,18 @@ class MainActivity : AppCompatActivity() {
             }
         }
         caption.setText(savedCaption)
+    }
+
+    private fun checkPermission() {
+        // arbitrary integer value
+        val REQUEST_CODE_ASK_PERMISSIONS = 1
+
+        val permissionCheck = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.READ_EXTERNAL_STORAGE)
+
+        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), REQUEST_CODE_ASK_PERMISSIONS)
+        }
     }
 
     private fun getGenre(): String {
