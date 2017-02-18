@@ -30,9 +30,10 @@ class MainActivity : AppCompatActivity() {
 
         sharedPref = this.getPreferences(Context.MODE_PRIVATE)
 
-        // to get default image
+        // to get default state
         val defaultPictureDrawable: BitmapDrawable? = image.drawable as BitmapDrawable?
         val defaultPictureBitmap: Bitmap = defaultPictureDrawable!!.bitmap
+        val topicText: String = topic.text.toString()
 
         // recall data
         getData()
@@ -45,7 +46,10 @@ class MainActivity : AppCompatActivity() {
         // to reset the form
         reset.setOnClickListener {
             image.setImageBitmap(defaultPictureBitmap)
+            imageUriString = ""
+            topic.text = topicText
             people_check.isChecked = true
+            other_text.setText("")
             caption.setText("")
 
             sharedPref!!.edit().clear().apply()
@@ -75,6 +79,7 @@ class MainActivity : AppCompatActivity() {
 
         image.setImageURI(Uri.parse(savedImage))
         imageUriString = savedImage
+        topic.text = "Click the picture to change a picture"
         when (savedGenre) {
             people_check.text -> people_check.isChecked = true
             animal_check.text -> animal_check.isChecked = true
@@ -121,6 +126,7 @@ class MainActivity : AppCompatActivity() {
             val view_id: Int = intent.getIntExtra("picture_id", 0)
             if (image.id == view_id) {
                 image.setImageURI(selectedImageUri)
+                topic.text = "Click the picture to change a picture"
             }
 
             imageUriString = selectedImageUri.toString()

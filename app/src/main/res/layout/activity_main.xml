@@ -13,9 +13,10 @@
     tools:context="com.example.game.pictureform.MainActivity">
 
     <TextView
+        android:id="@+id/topic"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Click the droid to add picture"
+        android:text="Click the droid to add a picture"
         android:textColor="@color/colorPrimary"
         android:textSize="18sp"
         android:textStyle="bold" />
