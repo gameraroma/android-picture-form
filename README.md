@@ -4,6 +4,13 @@ This is example to build form with picture in Android app. This app was wrote in
 ## Introduce to App
 The form app look like [this](https://drive.google.com/file/d/0B9Cpm2ZSR1FMdGtPN3dnMmtxdVk/view). You can add picture and insert some information as you need to do.
 
+## Knowledge of This App
+1. Build UI with `xml` with these components: text field, radio buttons, button, and image.
+1. Binding data in Kotlin way, without `findViewById`
+1. Choose image from gallery and manage image data
+1. Save data using `SharePreference`
+1. Permission request on runtime (for Android March Mellow and upper version)
+
 ## Configure Kotlin
 You have to follow the step as links below
 * [Getting started with Android and Kotlin](https://kotlinlang.org/docs/tutorials/kotlin-android.html) - for config Kotlin at create project.
@@ -25,7 +32,7 @@ class MainActivity : AppCompatActivity() {
 
 ".xml file is still the same, since Kotlin have no effect with them.
 
-## Building Your UI
+## Building UI
 This app use few widget to build the form. You need to write the code in `activity_main.xml`. There are the component to build the app. All widgets have been styled for example: `textColor`, `textSize`, `textStyle` etc.
 
 ### Topic
@@ -169,3 +176,44 @@ Add some text to tell some information to user
     android:textColor="@color/colorPrimary" 
     android:textSize="12sp" />
 ```
+
+## Input Image to Form
+Other widget basically input using text, but the image need to build a stuff to control this process. This app allow user import picture when touch the image view.
+
+### Make Image Clickable
+- You need to add image view can be trigger via click. Therefore, add `android:clickable="true"` to `ImageView`.
+- set when image view has been click using this code
+
+```
+image.setOnClickListener {}
+```
+
+which `image` is `id` of this `ImageView`. This code abandon `findViewById`, so you can use `ImageView` instance immediately. 
+
+### Choose Image from Gallery
+declair the function that open gallery
+```
+fun insertPictureFormGallery(view: View) {
+    val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+    intent.putExtra("picture_id", view.id)
+    startActivityForResult(galleryIntent, 1)
+}
+```
+
+### After Choose Image
+```
+override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    if (requestCode == 1 && resultCode == Activity.RESULT_OK && data != null) {
+        val selectedImageUri: Uri = data.data
+        val view_id: Int = intent.getIntExtra("picture_id", 0)
+        if (image.id == view_id) {
+            image.setImageURI(selectedImageUri)
+            topic.text = "Click the picture to change a picture"
+        }
+            
+        imageUriString = selectedImageUri.toString()
+    }
+}
+```
+
+# Underconstruction...
