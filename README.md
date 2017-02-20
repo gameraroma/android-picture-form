@@ -237,4 +237,15 @@ var imageUriString = ""
 This app using `SharePreference` to save the form data. `SharePreference`save data using key and value, which appropriate to save simple data. First, you need to declare class variable: `var :SharePreference? = null`. If you set value our variable as null, you need to declare a type of this value our variable followed by `?`. This class variable used for access from any where in this class.
 
 ### Assign Value
+In `onCreate` method, assign `sharedPref` value like this
+```
+override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    setContentView(R.layout.activity_main)
+
+    sharedPref = this.getPreferences(Context.MODE_PRIVATE)
+}
+```
+
+
 # Underconstruction...
