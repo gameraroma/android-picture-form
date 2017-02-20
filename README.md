@@ -199,6 +199,15 @@ fun insertPictureFormGallery(view: View) {
     startActivityForResult(galleryIntent, 1)
 }
 ```
+This function will be called when image view is clicked.
+```
+image.setOnClickListener {
+    insertPictureFormGallery(image)
+}
+```
+, which `image` is `ImageView`.
+
+`putExtra` method use for passing any value to next step, in this case is `onActivityResult`. This code pass `id` of view to process in the next step.
 
 ### After Choose Image
 ```
@@ -215,5 +224,6 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) 
     }
 }
 ```
+`getIntExtra` method is used for get value from previous step. In this code, the `if` statement validate 
 
 # Underconstruction...
