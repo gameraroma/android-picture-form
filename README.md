@@ -224,6 +224,13 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) 
     }
 }
 ```
-`getIntExtra` method is used for get value from previous step. In this code, the `if` statement validate 
+`getIntExtra` method is used for get value from previous step. In this code, the `if` statement to make sure that image view that pass from `onClick` is the same with image view that preview the chosen image. If you have only one image view, you can deprecate this statement. However, many image views should have this statement.In the statement, set image view as image chosen using Uri, like path to image, use `setImageaUri`method, and change the topic to explain user. Finally, collect `imageUriString`as string to class variable, which has been despair at the top of the activity class.
 
+```class MainActivity : AppCompatActivity() {
+var imageUriString = ""
+
+...
+
+}
+```
 # Underconstruction...
