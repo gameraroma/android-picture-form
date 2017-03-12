@@ -226,7 +226,8 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) 
 ```
 `getIntExtra` method is used for get value from previous step. In this code, the `if` statement to make sure that image view that pass from `onClick` is the same with image view that preview the chosen image. If you have only one image view, you can deprecate this statement. However, many image views should have this statement.In the statement, set image view as image chosen using Uri, like path to image, use `setImageaUri`method, and change the topic to explain user. Finally, collect `imageUriString`as string to class variable, which has been despair at the top of the activity class.
 
-```class MainActivity : AppCompatActivity() {
+```
+class MainActivity : AppCompatActivity() {
 var imageUriString = ""
 
 ...
@@ -238,6 +239,7 @@ This app using `SharePreference` to save the form data. `SharePreference`save da
 
 ### Assign Value
 In `onCreate` method, assign `sharedPref` value like this
+
 ```
 override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -246,6 +248,60 @@ override fun onCreate(savedInstanceState: Bundle?) {
     sharedPref = this.getPreferences(Context.MODE_PRIVATE)
 }
 ```
+then assign data into each fields using this method
 
+```
+private fun getData() {
+    // for API 23 and upper: check permission at runtime
+    checkPermission()
 
-# Underconstruction...
+    val savedImage = sharedPref!!.getString("image", imageUriString)
+    val savedGenre = sharedPref!!.getString("genre", getGenre())
+    val savedCaption = sharedPref!!.getString("caption", caption.text.toString())
+
+    image.setImageURI(Uri.parse(savedImage))
+    imageUriString = savedImage
+    topic.text = "Click the picture to change a picture"
+    when (savedGenre) {
+        people_check.text -> people_check.isChecked = true
+        animal_check.text -> animal_check.isChecked = true
+        object_check.text -> object_check.isChecked = true
+        place_check.text -> place_check.isChecked = true
+        else -> {
+            other_check.isChecked = true
+            other_text.setText(savedGenre)
+        }
+    }
+    caption.setText(savedCaption)
+}
+```
+
+At first, method `checkPermission` will be talk later, Let consider obtaining data part. call `sharedPref` with `!!` behind to let program throw `NullPointerExeption` when `sharePref` is null while compile. You can use `?`, [Elvis operator](https://kotlinlang.org/docs/reference/null-safety.html#elvis-operator), that equivalent to `if (sharePref != null) {...}`.
+
+`Uri.parse(<String>)`, this statement convert string to uri then assign to image view
+
+## Runtime Permission (for API v23 and upper)
+
+To implement runtime permission, use this code.
+```
+private fun checkPermission() {
+    // arbitrary integer value
+    val REQUEST_CODE_ASK_PERMISSIONS = 1
+
+    val permissionCheck = ContextCompat.checkSelfPermission(this,
+            Manifest.permission.READ_EXTERNAL_STORAGE)
+
+    if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+        ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), REQUEST_CODE_ASK_PERMISSIONS)
+    }
+}
+```
+, which `REQUEST_CODE_ASK_PERMISSIONS` can be any integer. At first, check the permission, if the app doesn't acquired the permission, which checked with `PackageManager.PERMISSION_GRANTED`, request permission using following code in if statement.
+
+By the way, don't forget to add permission in "AndroidManifest.xml"
+
+```
+<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+```
+
+## ------------------
