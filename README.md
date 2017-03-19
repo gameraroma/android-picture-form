@@ -2,7 +2,16 @@
 This is example to build form with picture in Android app. This app was wrote in Kotlin. Follow these topic to build form using Kotlin.
 
 ## Introduce to App
-The form app look like [this](https://drive.google.com/file/d/0B9Cpm2ZSR1FMdGtPN3dnMmtxdVk/view). You can add picture and insert some information as you need to do.
+
+![](https://lh4.googleusercontent.com/a-K0Dxl54Hjar0l3lXxBkSvKAqKvcUdAHChYWCYAOOGMnj9WD4_6CH1Hl87jeQfi-xe8QsjaGBy8IEo=w1440-h721-rw)
+
+Pic.1 Before input
+
+![](https://lh4.googleusercontent.com/RlXL1KQGNyDU7kftj9U42X0Nn8R4i2PasQ68zotAw5BPpGqT6nk52XDSdrNAMXlVh4iN6ALRbc2MwOs=w1440-h721-rw)
+
+Pic.2 After input
+
+The form app look like pictures as above. You can add picture and insert some information as you need to do.
 
 ## Knowledge of This App
 1. Build UI with `xml` with these components: text field, radio buttons, button, and image.
